@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom'; 
+import CalculadoraForm from './components/CalculadoraForm.jsx'; 
+import ChatbotUI from './components/Chatbot/ChatbotUI.jsx'; 
+
+import './App.css'; 
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [dadosFormulario, setDadosFormulario] = useState(null);
+    const [isChatOpen, setIsChatOpen] = useState(false); 
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const handleCalculo = (dadosValidados) => {
+        setDadosFormulario(dadosValidados); 
+        console.log("--- Sucesso na Validação (App.jsx) ---");
+        console.log("Dados prontos para o cálculo (Pessoa A):", dadosValidados);
+    };
+    
+    const toggleChat = () => {
+        setIsChatOpen(prev => !prev);
+    };
+
+    return (
+        <div className="App">
+            
+            <header>
+                <h1>Plataforma de Comparação Tributária</h1>
+            </header>
+
+            <Routes>
+                <Route 
+                    path="/" 
+                    element={
+                        <CalculadoraForm 
+                            onDataSubmit={handleCalculo}
+                            onOpenChat={toggleChat}
+                        />
+                    } 
+                />
+                
+                <Route path="*" element={<h2>Página não encontrada.</h2>} />
+            </Routes>
+            {isChatOpen && <ChatbotUI onClose={toggleChat} />}
+            
+            {dadosFormulario && (
+                <div>
+                    <h3>Seus dados foram recebidos com sucesso!:</h3>
+                    <pre>
+                        {JSON.stringify(dadosFormulario, null, 2)}
+                    </pre>
+                </div>
+            )}
+        </div>
+    );
 }
 
-export default App
+export default App;
