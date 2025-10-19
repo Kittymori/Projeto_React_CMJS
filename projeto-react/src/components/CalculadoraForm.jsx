@@ -17,13 +17,15 @@ const ExplicacaoPopup = ({ onClose }) => (
 );
 
 const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
-    const [isPopupOpen, setIsPopupOpen] = useState(false); 
-    
+    const [rendaMensal, setRendaMensal] = useState(0);
+    const [custosMensais, setCustosMensais] = useState(0);
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const enviarEmailCheck = watch('enviarEmail', false); 
     const [mensagemSucesso, setMensagemSucesso] = useState(null);
 
     const onSubmit = (dados) => {
+        setRendaMensal(dados.rendaMensal);
+        setCustosMensais(dados.custosMensais);
         onDataSubmit(dados);
         setMensagemSucesso("Dados enviados com sucesso para a lógica de cálculo.");
         reset(); 
