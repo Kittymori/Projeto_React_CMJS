@@ -1,4 +1,3 @@
-// src/components/CalculadoraForm.jsx
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -17,6 +16,7 @@ const ExplicacaoPopup = ({ onClose }) => (
 );
 
 const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [rendaMensal, setRendaMensal] = useState(0);
     const [custosMensais, setCustosMensais] = useState(0);
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
@@ -27,7 +27,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
         setRendaMensal(dados.rendaMensal);
         setCustosMensais(dados.custosMensais);
         onDataSubmit(dados);
-        setMensagemSucesso("Dados enviados com sucesso para a lógica de cálculo.");
+        setMensagemSucesso("Dados enviados com sucesso!");
         reset(); 
         setTimeout(() => setMensagemSucesso(null), 5000);
     };
@@ -143,7 +143,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                     type="button" 
                     onClick={() => alert("Simulação de Envio de E-mail para o NAF.")}
                 >
-                    Enviar E-mail para o NAF (Opção Secundária)
+                    Enviar E-mail para o NAF
                 </button>
             </div>
         </form>
