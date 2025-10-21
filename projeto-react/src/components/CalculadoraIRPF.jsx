@@ -3,6 +3,7 @@ import React from "react";
 const CalculadoraIRPF = ({ rendaMensal, custosMensais }) => {
     const basePF = rendaMensal - custosMensais;
     let imposto = 0;
+    
     let deducao = 0;
 
     if (basePF <= 2428.80) {
