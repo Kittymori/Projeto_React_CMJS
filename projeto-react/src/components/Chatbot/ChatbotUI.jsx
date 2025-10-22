@@ -1,4 +1,5 @@
 import React from 'react';
+
 const ChatbotUI = ({ onClose }) => {
   return (
     <div style={{ 
@@ -12,14 +13,12 @@ const ChatbotUI = ({ onClose }) => {
       padding: '10px',
       zIndex: 1000
     }}>
-      <h3>Chatbot de Dúvidas</h3>
+      <h3>Chatbot para Dúvidas </h3>
       
       <button onClick={onClose} style={{ float: 'right' }}>
         X
       </button>
 
-      <p>Interface do Chatbot será construída aqui.</p>
-      <p>A prop onClose está funcionando!</p>
 
     </div>
   );

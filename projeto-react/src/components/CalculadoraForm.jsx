@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const ExplicacaoPopup = ({ onClose }) => (
-    <div style={{ border: '1px solid #0056b3', padding: '15px', margin: '10px 0', backgroundColor: '#e9f7ff' }}>
+    <div style={{ border: '1px solid #0056b3', padding: '15px', margin: '10px 0', textAlign: 'center', backgroundColor: '#e9f7ff' }}>
         <button 
             onClick={onClose}
             style={{ float: 'right', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
@@ -38,7 +38,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <h2>Calculadora de Tributação PF vs PJ (Psicólogos)</h2>
+            <h2>Informações para Comparação</h2>
 
             {mensagemSucesso && (
                 <div>{mensagemSucesso}</div>
