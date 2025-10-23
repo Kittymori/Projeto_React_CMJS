@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const ExplicacaoPopup = ({ onClose }) => (
-    <div style={{ border: '1px solid #0056b3', padding: '15px', margin: '10px 0', textAlign: 'center', backgroundColor: '#e9f7ff' }}>
+    <div className="bloco-ajuda" style={{ border: '2px solid #00ccff', padding: '15px', margin: '10px 0', textAlign: 'center', backgroundColor: '#05142eff' }}>
         <button 
             onClick={onClose}
             style={{ float: 'right', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
@@ -39,7 +39,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="calculadora-form">
             <h2>Informações para Comparação</h2>
 
             {mensagemSucesso && (
@@ -47,7 +47,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
             )}
 
             <div style={{ margin: '10px 0' }}>
-                <button type="button" onClick={togglePopup}>
+                <button type="button" className="btn-ajuda" onClick={togglePopup}>
                     {isPopupOpen ? 'Esconder Ajuda' : 'Mostrar Informações de Ajuda'}
                 </button>
             </div>
@@ -57,10 +57,11 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
             )}
             
             <div>
-                <label htmlFor="renda">Renda Mensal (até R$ 15.000):</label>
+                <label htmlFor="renda">Renda Mensal (até R$ 15.000): </label>
                 <input
                     id="renda"
                     type="number"
+                    className="input-field" 
                     {...register("rendaMensal", { 
                         required: "A Renda Mensal é obrigatória.",
                         min: { value: 1, message: "A renda deve ser maior que zero." },
@@ -73,10 +74,11 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
             </div>
 
             <div>
-                <label htmlFor="custos">Total de Custos Mensais:</label>
+                <label htmlFor="custos">Total de Custos Mensais: </label>
                 <input
                     id="custos"
                     type="number"
+                    className="input-field" 
                     {...register("custosMensais", { 
                         required: "Os Custos Mensais são obrigatórios.",
                         min: { value: 0, message: "Os custos não podem ser negativos." },
@@ -91,6 +93,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                 <label htmlFor="profissao">Profissão:</label>
                 <select 
                     id="profissao" 
+                    className="input-field" 
                     {...register("profissao", { required: true })} 
                     defaultValue="psicologo"
                 >
@@ -98,7 +101,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                 </select>
             </div>
 
-            <div>
+            <div className="checkbox-group">
                 <input
                     id="enviarEmailCheck"
                     type="checkbox"
@@ -113,6 +116,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                     <input
                         id="emailUsuario"
                         type="email"
+                        className="input-field" 
                         {...register("emailUsuario", {
                             required: "O campo de e-mail é obrigatório para o envio.",
                             pattern: {
@@ -125,7 +129,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                 </div>
             )}
 
-            <button type="submit">Calcular Tributação e Enviar</button>
+            <button type="submit" className="btn-submit">Calcular Tributação e Enviar</button>
 
             <hr />
 
@@ -133,6 +137,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                 <p>Tem dúvidas sobre tributação ou terminologias? Use nosso Assistente de Dúvidas!</p>
                 <button 
                     type="button" 
+                    className="btn-chat"
                     onClick={onOpenChat} 
                 >
                     Abrir Chatbot de Dúvidas
@@ -145,6 +150,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                 <p>Caso prefira, você ainda pode entrar em contato diretamente com o NAF.</p>
                 <button 
                     type="button" 
+                    className="btn-email-naf"
                     onClick={() => alert("Simulação de Envio de E-mail para o NAF.")}
                 >
                     Enviar E-mail para o NAF

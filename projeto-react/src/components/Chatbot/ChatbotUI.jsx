@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import IconChatbot from './IconChatbot'; 
-import luriIcon from '../../assets/iconChatbotR.png'; 
+import IconContinha from '../../assets/iconChatbotR.png'; 
 const ChatOptionButton = ({ text, onClick }) => (
     <button
         onClick={onClick}
@@ -32,7 +32,7 @@ const ChatbotUI = ({ onClose }) => {
         right: '20px',
         width: '350px',
         height: '500px',
-        backgroundColor: '#0a1930',
+        backgroundColor: '#1e3c72',
         color: 'white',
         borderRadius: '10px',
         boxShadow: '0 5px 20px rgba(0, 0, 0, 0.5)',
@@ -47,7 +47,7 @@ const ChatbotUI = ({ onClose }) => {
         alignItems: 'center',
         padding: '10px 15px',
         borderBottom: '1px solid #1e3c72',
-        backgroundColor: '#0a1930',
+        backgroundColor: '#05142eff',
         borderRadius: '10px 10px 0 0',
         position: 'sticky',
         top: 0
@@ -66,7 +66,7 @@ const ChatbotUI = ({ onClose }) => {
             <div style={headerStyle}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <IconChatbot 
-                        src={luriIcon} 
+                        src={IconContinha} 
                         alt="Ícone da Continha" 
                         size="24px" 
                         isRounded={true} 

@@ -6,9 +6,9 @@ const Header = () => {
     <header 
       style={{
         padding: '15px 0', 
-        borderBottom: '1px solid #1e3c72', 
+        borderBottom: '4px solid #00ccff', 
         width: '100%',
-        backgroundColor: '#02050aff',
+        backgroundColor: '#05142eff',
       }}
     >
       <div 
@@ -16,7 +16,7 @@ const Header = () => {
           display: 'flex',
           justifyContent: 'space-between', 
           alignItems: 'center',
-          margin: '0 auto',
+          margin: '20px',
         }}
       >
         <Logo /> 

@@ -4,8 +4,10 @@ import CalculadoraForm from './components/CalculadoraForm.jsx';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ChatbotUI from './components/Chatbot/ChatbotUI.jsx'; 
+import ResultadoComparacao from './components/ResultadoComparacao.jsx';
 
 import './App.css'; 
+import './index.css';
 
 function App() {
     const [dadosFormulario, setDadosFormulario] = useState(null);
@@ -28,26 +30,27 @@ function App() {
 
             <main>
                 <Routes>
-                    <Route 
-                        path="/" 
+                    <Route
+                        path='/'
                         element={
-                            <>
+                            <div className="container-principal"> 
+                                
                                 <CalculadoraForm 
                                     onDataSubmit={handleCalculo}
                                     onOpenChat={toggleChat}
                                 />
-                                {dadosFormulario && (
-                                    <div className="resultado-debug">
-                                        <h3>Seus dados foram recebidos com sucesso!:</h3>
-                                        <pre>
-                                            {JSON.stringify(dadosFormulario, null, 2)}
-                                        </pre>
-                                    </div>
+
+                                {dadosFormulario && resultadoPF && resultadoPJ && (
+                                    <ResultadoComparacao 
+                                        dadosEntrada={dadosFormulario} 
+                                        resultadoPF={resultadoPF} 
+                                        resultadoPJ={resultadoPJ} 
+                                    />
                                 )}
-                            </>
-                        } 
+                            </div>
+                        }
                     />
-                    
+                                        
                     <Route path="*" element={<h2>Página não encontrada.</h2>} />
                 </Routes>
                 

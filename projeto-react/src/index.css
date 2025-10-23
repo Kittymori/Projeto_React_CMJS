@@ -1,20 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 *, *::before, *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 body {
-  margin: 0;
-  width: 100%;
-  min-width: 100%;
-  overflow-x: hidden;
+    margin: 0;
+    width: 100%;
+    min-width: 100%;
+    overflow-x: hidden;
 
-  background-color: #0a1930; 
-  color: white;
-  font-family: Arial, sans-serif;
-  text-align: center;
+    background-color: #1e3c72; 
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
 }
 
 #root {
-  width: 100%; 
-  margin: 0 auto; 
-  min-height: 100vh;
+    width: 100%; 
+    margin: 0 auto; 
+    min-height: 100vh;
+}
+
+.calculadora-form input[type="number"], 
+.calculadora-form input[type="text"],
+.calculadora-form input[type="email"].input-field,
+.calculadora-form select.input-field {
+    width: 100%;
+    padding: 12px 20px; 
+    margin-top: 5px;
+    margin-bottom: 20px; 
+    border: 1px solid #1e3c72;
+    border-radius: 25px;
+    background-color: #0f2038;
+
+
+    color: #e0e0e0;
+    font-size: 1.05em; 
+    
+
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease; 
+}
+
+.calculadora-form input[type="number"]::placeholder,
+.calculadora-form input[type="text"]::placeholder,
+.calculadora-form input[type="email"]::placeholder {
+    color: #5a749b;
+}
+
+.calculadora-form input[type="number"]:focus,
+.calculadora-form input[type="text"]:focus,
+.calculadora-form input[type="email"]:focus,
+.calculadora-form select:focus {
+    border-color: #00ccff; 
+    box-shadow: 0 0 8px rgba(0, 204, 255, 0.4);
+    outline: none; 
+    background-color: #1a3050;
+}
+.calculadora-form button {
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: bold;
+    padding: 12px 25px;
+    border-radius: 8px; 
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    margin-top: 10px;
+    width: 100%; 
+}
+
+.calculadora-form .btn-submit {
+    background-color: #00ccff; 
+    color: #05142eff; 
+    border: 2px solid #00ccff; 
+    box-shadow: 0 4px 8px rgba(0, 204, 255, 0.3); 
+}
+
+.calculadora-form .btn-submit:hover {
+    background-color: #00e6ff;
+    box-shadow: 0 6px 12px rgba(0, 204, 255, 0.5);
+    transform: translateY(-2px); 
+}
+
+.calculadora-form .btn-chat,
+.calculadora-form .btn-email-naf {
+    background-color: transparent;
+    color: #ffeb3b; 
+    border: 2px solid #ffeb3b; 
+    margin-bottom: 5px;
+}
+
+.calculadora-form .btn-chat:hover,
+.calculadora-form .btn-email-naf:hover {
+    background-color: #ffeb3b;
+    color: #05142eff;
+    transform: scale(1.02);
+}
+
+.calculadora-form .btn-ajuda {
+    background: none; 
+    color: #9bd0ff; 
+    border: none;
+    padding: 5px 10px; 
+    text-decoration: underline;
+    text-transform: none; 
+    font-weight: normal;
+    width: auto; 
+    display: inline-block;
+}
+
+.calculadora-form .btn-ajuda:hover {
+    color: #00ccff;
+    background: none;
+    transform: none;
+}
+.calculadora-form select.input-field {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: none; 
+    padding-right: 20px; 
 }

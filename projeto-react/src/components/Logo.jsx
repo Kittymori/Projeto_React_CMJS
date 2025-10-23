@@ -12,6 +12,7 @@ const Logo = () => {
                     height: '50px', 
                     width: 'auto', 
                     display: 'block', 
+                    margin: '20px'
                 }}
             />
         </div>
