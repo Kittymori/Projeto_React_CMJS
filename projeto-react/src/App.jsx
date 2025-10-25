@@ -4,6 +4,7 @@ import CalculadoraForm from './components/CalculadoraForm.jsx';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ChatbotUI from './components/Chatbot/ChatbotUI.jsx';
+import ChatbotToggle from './components/Chatbot/ChatbotToggle.jsx';
 import ResultadoComparacao from './components/ResultadoComparacao.jsx';
 
 import './App.css';
@@ -123,6 +124,8 @@ function App() {
                 </Routes>
 
                 {isChatOpen && <ChatbotUI onClose={toggleChat} />}
+                {!isChatOpen && <ChatbotToggle isOpen={isChatOpen} onClick={toggleChat} />}
+
             </main>
 
             <Footer />
