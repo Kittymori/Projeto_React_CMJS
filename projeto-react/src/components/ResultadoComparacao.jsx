@@ -65,7 +65,7 @@ const ResultadoComparacao = ({ dadosEntrada, resultadoPF, resultadoPJ }) => {
             <h2 style={tituloStyle}>Resultado da Simulação e Comparação</h2>
             
             <p style={{ textAlign: 'center', marginBottom: '30px', color: '#ccc' }}>
-                Renda Bruta Mensal de Entrada: <span style={{ color: '#ffeb3b', fontWeight: 'bold' }}>{formatter.format(dadosEntrada.renda)}</span>
+                Renda Bruta Mensal de Entrada: <span style={{ color: '#ffeb3b', fontWeight: 'bold' }}>{formatter.format(dadosEntrada.rendaMensal)}</span>
             </p>
 
             <div style={cardContainerStyle}>

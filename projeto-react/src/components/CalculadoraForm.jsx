@@ -17,17 +17,10 @@ const ExplicacaoPopup = ({ onClose }) => (
 
 const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [rendaMensal, setRendaMensal] = useState("");
-    const [custosMensais, setCustosMensais] = useState("");
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const enviarEmailCheck = watch('enviarEmail', false); 
     const [mensagemSucesso, setMensagemSucesso] = useState(null);
-    const handleRendaChange = (e) => setRendaMensal(Number(e.target.value));
-    const handleCustosChange = (e) => setCustosMensais(Number(e.target.value));
-
     const onSubmit = (dados) => {
-        setRendaMensal(dados.rendaMensal);
-        setCustosMensais(dados.custosMensais);
         onDataSubmit(dados);
         setMensagemSucesso("Dados enviados com sucesso!");
         reset(); 
@@ -68,7 +61,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                         max: { value: 15000, message: "A renda não pode exceder R$ 15.000." },
                         valueAsNumber: true,
                     })}
-                    onChange={handleRendaChange}
+                    
                 />
                 {errors.rendaMensal && <p>{errors.rendaMensal.message}</p>}
             </div>
@@ -84,7 +77,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                         min: { value: 0, message: "Os custos não podem ser negativos." },
                         valueAsNumber: true,
                     })}
-                    onChange={handleCustosChange}
+                    
                 />
                 {errors.custosMensais && <p>{errors.custosMensais.message}</p>}
             </div>
