@@ -15,6 +15,7 @@ body {
     text-align: center;
 }
 
+
 #root {
     width: 100%; 
     margin: 0 auto; 
@@ -52,7 +53,7 @@ body {
 .calculadora-form input[type="text"]:focus,
 .calculadora-form input[type="email"]:focus,
 .calculadora-form select:focus {
-    border-color: #00ccff; 
+    border-color: #007284; 
     box-shadow: 0 0 8px rgba(0, 204, 255, 0.4);
     outline: none; 
     background-color: #1a3050;
@@ -70,15 +71,16 @@ body {
 }
 
 .calculadora-form .btn-submit {
-    background-color: #00ccff; 
+    background-color: #00b393; 
     color: #05142eff; 
-    border: 2px solid #00ccff; 
-    box-shadow: 0 4px 8px rgba(0, 204, 255, 0.3); 
+    border: 2px solid #007284; 
+    box-shadow: 0 4px 8px rgba(101, 214, 242, 0.3); 
 }
 
 .calculadora-form .btn-submit:hover {
-    background-color: #00e6ff;
-    box-shadow: 0 6px 12px rgba(0, 204, 255, 0.5);
+    background-color: #00888f;
+    color: #f7ebff;
+    box-shadow: 0 6px 12px rgba(101, 214, 242, 0.3);
     transform: translateY(-2px); 
 }
 
@@ -92,7 +94,7 @@ body {
 
 .calculadora-form .btn-chat:hover,
 .calculadora-form .btn-email-naf:hover {
-    background-color: #ffeb3b;
+    background-color: #d8a21b;
     color: #05142eff;
     transform: scale(1.02);
 }
@@ -110,7 +112,7 @@ body {
 }
 
 .calculadora-form .btn-ajuda:hover {
-    color: #00ccff;
+    color: #1b857f;
     background: none;
     transform: none;
 }

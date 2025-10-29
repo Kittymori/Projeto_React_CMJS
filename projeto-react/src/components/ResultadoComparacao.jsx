@@ -11,7 +11,13 @@ const containerStyle = { /* ... */ };
 const tituloStyle = { /* ... */ };
 const cardContainerStyle = { display: 'flex', justifyContent: 'space-around', gap: '20px', marginTop: '30px', };
 const cardBaseStyle = { /* ... */ };
-const destaqueStyle = (isMelhor) => ({ /* ... */ });
+const destaqueStyle = (isMelhor) => ({ padding: '18px',
+    borderRadius: '8px',
+    backgroundColor: isMelhor ? '#072033' : '#0b2236',
+    border: isMelhor ? '3px solid #ffeb3b' : '1px solid zilver',
+    minWidth: '300px',
+    flex: 1,
+});
 
 
 const ResultadoComparacao = ({ dadosEntrada, resultadoPF, resultadoPJ }) => {
@@ -61,7 +67,7 @@ const ResultadoComparacao = ({ dadosEntrada, resultadoPF, resultadoPJ }) => {
 
 
     return (
-        <div style={containerStyle}>
+        <div id="resultado-comparacao" style={containerStyle}>
             <h2 style={tituloStyle}>Resultado da Simulação e Comparação</h2>
             
             <p style={{ textAlign: 'center', marginBottom: '30px', color: '#ccc' }}>

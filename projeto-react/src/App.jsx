@@ -86,6 +86,12 @@ function App() {
         setDadosFormulario(dadosValidados);
         console.log("Sucesso na Validação");
         console.log("Dados prontos para o cálculo", dadosValidados);
+        setTimeout(() => {
+            const el = document.getElementById('resultado-comparacao');
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 150);
     };
 
     const toggleChat = () => {

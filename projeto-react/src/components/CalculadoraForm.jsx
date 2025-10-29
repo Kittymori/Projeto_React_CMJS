@@ -124,20 +124,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
 
             <button type="submit" className="btn-submit">Calcular Tributação e Enviar</button>
 
-            <hr />
-
-            <div>
-                <p>Tem dúvidas sobre tributação ou terminologias? Use nosso Assistente de Dúvidas!</p>
-                <button 
-                    type="button" 
-                    className="btn-chat"
-                    onClick={onOpenChat} 
-                >
-                    Abrir Chatbot de Dúvidas
-                </button>
-            </div>
-            
-            <hr /> 
+          <hr></hr>
             
             <div>
                 <p>Caso prefira, você ainda pode entrar em contato diretamente com o NAF.</p>
@@ -149,6 +136,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                     Enviar E-mail para o NAF
                 </button>
             </div>
+            
         </form>
     );
 };
