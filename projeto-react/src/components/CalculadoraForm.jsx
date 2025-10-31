@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const ExplicacaoPopup = ({ onClose }) => (
-    <div className="bloco-ajuda" style={{ border: '2px solid #00ccff', padding: '15px', margin: '10px 0', textAlign: 'center', backgroundColor: '#05142eff' }}>
+    <div style={{ border: '2px solid #00ccff', padding: '15px', margin: '10px 0', textAlign: 'center', backgroundColor: '#05142eff' }}>
         <button 
             onClick={onClose}
             style={{ float: 'right', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
@@ -20,6 +20,9 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const enviarEmailCheck = watch('enviarEmail', false); 
     const [mensagemSucesso, setMensagemSucesso] = useState(null);
+    const [mostrarMensagemNAF, setMostrarMensagemNAF] = useState(false);
+    const [mensagemNAF, setMensagemNAF] = useState('');
+
     const onSubmit = (dados) => {
         onDataSubmit(dados);
         setMensagemSucesso("Dados enviados com sucesso!");
@@ -124,19 +127,56 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
 
             <button type="submit" className="btn-submit">Calcular Tributação e Enviar</button>
 
-          <hr></hr>
-            
             <div>
-                <p>Caso prefira, você ainda pode entrar em contato diretamente com o NAF.</p>
-                <button 
-                    type="button" 
-                    className="btn-email-naf"
-                    onClick={() => alert("Simulação de Envio de E-mail para o NAF.")}
-                >
-                    Enviar E-mail para o NAF
-                </button>
-            </div>
-            
+                {!mostrarMensagemNAF ? (
+                    <p className="btn-ajuda"
+                    onClick={() => setMostrarMensagemNAF(true)} 
+                    >
+                    Enviar mensagem para o NAF (Núcleo de Apoio Contábil e Fiscal)
+                    </p>
+                ) : (
+                    <div style={{
+                    border: '2px solid #00ccff',
+                    backgroundColor: '#05142e',
+                    padding: '15px',
+                    marginTop: '15px',
+                    borderRadius: '8px',
+                    color: '#ffffff'
+                    }}>
+                    <textarea
+                        value={mensagemNAF}
+                        onChange={(e) => setMensagemNAF(e.target.value)}
+                        placeholder="Digite sua mensagem..."
+                        rows={4}
+                        style={{
+                        width: '100%',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        border: '1px solid #00ccff',
+                        backgroundColor: '#0a1a3a',
+                        color: '#fff',
+                        marginBottom: '10px',
+                        resize: 'none',
+                        fontFamily: 'Montserrat, sans-serif'
+                        }}
+                    />
+
+                    <button 
+                        type="button" 
+                        className="btn-email-naf"
+                        disabled={!mensagemNAF.trim()}
+                        onClick={() => {
+                        alert(`Simulação de envio de e-mail para o NAF:\n\n${mensagemNAF}`);
+                        setMensagemNAF('');
+                        setMostrarMensagemNAF(false);
+                        }}
+                    >
+                        Enviar E-mail para o NAF
+                    </button>
+                    </div>
+                )}
+                </div>
+     
         </form>
     );
 };

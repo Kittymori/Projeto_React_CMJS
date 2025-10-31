@@ -15,7 +15,7 @@ const ChatbotToggle = ({ isOpen, onClick }) => {
           backgroundColor: '#ffffff',
           color: '#0a1930',
           padding: '8px 12px',
-          borderRadius: '12px',
+          borderRadius: '50px',
           boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
           fontSize: '14px',
           zIndex: 1000
@@ -34,7 +34,7 @@ const ChatbotToggle = ({ isOpen, onClick }) => {
           right: '20px',  
           zIndex: 1000,   
           
-          backgroundColor: '#00ccff',
+          backgroundColor: '#0a1930',
           color: '#0a1930',           
           border: 'none',
           borderRadius: '50%',       
@@ -51,7 +51,7 @@ const ChatbotToggle = ({ isOpen, onClick }) => {
         aria-expanded={isOpen}
         aria-label="Abrir Assistente de Dúvidas"
       >
-        <IconChatbot src={chatIcon} alt="Ícone do Chatbot" size="32px" isRounded={true} />
+        <IconChatbot src={chatIcon} alt="Ícone do Chatbot" size="50px" isRounded={true} />
       </button>
     </>
   );

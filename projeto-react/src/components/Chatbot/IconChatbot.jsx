@@ -9,7 +9,7 @@ const IconChatbot = ({ src, alt, size = '24px', isRounded = false, style = {} })
         height: size,
         width: size,
         display: 'block',
-        borderRadius: isRounded ? '50%' : '0', 
+        borderRadius:'50%', 
         ...style
       }} 
     />

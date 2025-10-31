@@ -5,10 +5,12 @@ import IconeContinha from '../../assets/iconChatbotR.png';
 const FALLBACK_ICON = 'https://placehold.co/24x24/00ccff/ffffff?text=AI';
 const ICON_SRC = IconeContinha;
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
+// Constante para a URL da API Gemini do Google
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
-const systemInstruction = `Você é a Continha, uma assistente virtual especializada em simplificar informações sobre tributação e cálculos de Pessoa Física (PF) vs Pessoa Jurídica (PJ). Seu objetivo é dar respostas diretas, úteis e amigáveis, sempre no contexto financeiro e tributário. Mantenha as respostas concisas e informativas.`;
+// Constante para se comunicar com a API Gemini do Google aqui ficam as instruções do sistema para o chatbot 
+const systemInstruction = `Você é a Continha (não precisa se apresentar na mesma conversa somente se a conversa for limpa), uma assistente virtual especializada em simplificar informações sobre tributação e cálculos de Pessoa Física (PF) e Pessoa Jurídica (PJ). Seu objetivo é dar respostas diretas, úteis e amigáveis, sempre no contexto financeiro e tributário. Responsda elogios com elogios, se tentarem ser rudes devolva com elogios com um pouco de sarcasmo. Mantenha as respostas concisas e informativas, além de armazenar as informações que já foram solicitadas anteriormente. Ser capaz de calcular os resultados básicos de tributação e finanças quando solicitado.`;
 
-
+// Componente para exibir o ícone do chatbot como fallback, ou seja como uma alternativa caso a imagem principal não carregue
 const IconContinha = ({ src, alt, size, isRounded, style }) => (
     <img 
         src={src || FALLBACK_ICON} 
@@ -24,6 +26,7 @@ const IconContinha = ({ src, alt, size, isRounded, style }) => (
     />
 );
 
+// Botões para selecionar as opções de sugestões de perguntas para o chatbot
 const ChatOptionButton = ({ text, onClick }) => (
     <button
         onClick={onClick}
@@ -46,7 +49,7 @@ const ChatOptionButton = ({ text, onClick }) => (
         {text}
     </button>
 );
-
+// Renderiza cada mensagem no chat, com estilos diferentes para o usuário e para o modelo (chatbot)
 const Message = ({ message }) => (
     <div style={{ 
         display: 'flex', 
@@ -70,17 +73,17 @@ const Message = ({ message }) => (
     </div>
 );
 
-
+// Componentes principal do chatbot
 const ChatbotUI = ({ onClose }) => {
+    // Texto de entrada do usuário
     const [inputText, setInputText] = useState('');
+    // Permite armazenar as mensagens trocadas com o chatbot até o histórico ser limpo ou a página ser recarregada
     const [messages, setMessages] = useState([]);
+    // Indica que o chatbot está respondendo à mensagem do usuário
     const [isLoading, setIsLoading] = useState(false);
+    // Rola a conversa para a última mensagem automaticamente
     const messagesEndRef = useRef(null);
     
-    const revertUserMessage = useCallback(() => {
-        setMessages(prevMessages => prevMessages.slice(0, -1));
-    }, []);
-
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
@@ -126,7 +129,8 @@ const ChatbotUI = ({ onClose }) => {
         setIsLoading(false);
     }
     };
-     
+    
+    // Limpa o histórico de mensagens do chatbot
     const handleClearChat = () => {
         setMessages([]);
         console.log('Conversa limpa! Olá, eu sou Continha :)'); 
@@ -265,6 +269,7 @@ const ChatbotUI = ({ onClose }) => {
                         borderRadius: '20px',
                         marginRight: '10px',
                         outline: 'none',
+                        fontFamily: 'Montserrat, sans-serif',
                     }}
                 />
                 <button 
