@@ -10,6 +10,7 @@ import { calculadoraIRPF, calculadoraIRPJ } from './components/CalculadoraIR.jsx
 
 import './App.css';
 import './index.css';
+import CadastroUsuario from "./components/cadastro/CadastroUsuario.jsx";
 
 
 function App() {
@@ -72,6 +73,8 @@ function App() {
                     />
 
                     <Route path="*" element={<h2>Página não encontrada.</h2>} />
+
+                    <Route path='/cadastro' element={<CadastroUsuario />} />
                 </Routes>
 
                 {isChatOpen && <ChatbotUI onClose={toggleChat} />}
