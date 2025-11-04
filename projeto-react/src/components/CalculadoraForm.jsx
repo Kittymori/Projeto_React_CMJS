@@ -16,6 +16,7 @@ const ExplicacaoPopup = ({ onClose }) => (
 );
 
 const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
+    // Estado para controlar a exibição do popup de explicação
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const enviarEmailCheck = watch('enviarEmail', false); 

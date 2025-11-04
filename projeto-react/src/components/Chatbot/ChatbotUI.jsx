@@ -179,7 +179,6 @@ const ChatbotUI = ({ onClose }) => {
         fontSize: '0.8em',
         color: '#00ccff',
     };
-    
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
