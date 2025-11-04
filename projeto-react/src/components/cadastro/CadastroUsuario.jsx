@@ -15,14 +15,11 @@ const CadastroUsuario = () => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            //atualizar apenas o campo modificado
             [name]: value
         }));
-        // Limpar o erro do campo quando o usuário começa a digitar
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
-                //remover apenas erro do campo modificado
                 [name]: ''
             }));
         }
