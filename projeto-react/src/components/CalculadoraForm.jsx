@@ -24,11 +24,30 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
     const [mostrarMensagemNAF, setMostrarMensagemNAF] = useState(false);
     const [mensagemNAF, setMensagemNAF] = useState('');
 
-    const onSubmit = (dados) => {
-        onDataSubmit(dados);
-        setMensagemSucesso("Dados enviados com sucesso!");
-        reset(); 
-        setTimeout(() => setMensagemSucesso(null), 5000);
+    const onSubmit = async (dados) => {
+    try {
+        // Envia os dados para o backend NestJS
+        const response = await fetch("http://localhost:3000/email/enviar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            email: dados.emailUsuario,
+            resultado: `Renda: R$${dados.rendaMensal}, Custos: R$${dados.custosMensais}`
+        }),
+        });
+
+        if (response.ok) {
+        setMensagemSucesso("E-mail enviado com sucesso!");
+        } else {
+        setMensagemSucesso("Erro ao enviar e-mail.");
+        }
+    } catch (error) {
+        console.error(error);
+        setMensagemSucesso("Erro de conexão com o servidor.");
+    }
+
+    reset();
+    setTimeout(() => setMensagemSucesso(null), 5000);
     };
 
     const togglePopup = () => {
