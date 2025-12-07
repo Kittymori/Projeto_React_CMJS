@@ -10,6 +10,9 @@ import ResultadoComparacao from './components/ResultadoComparacao.jsx';
 import './App.css';
 import './index.css';
 import CadastroUsuario from "./components/cadastro/CadastroUsuario.jsx";
+import AjudaPage from './components/AjudaPage/AjudaPage.jsx';
+import ContatoForm from './components/ContatoForm/ContatoForm.jsx'; // Assumindo que você o salvou em './pages/ContatoPage.jsx'
+
 const API_CALCULO_ENDPOINT = "https://improved-waffle-pjgv7xrv6rgxhr7vp-3000.app.github.dev/calculo/simular"; 
 const API_EMAIL_ENDPOINT = "https://improved-waffle-pjgv7xrv6rgxhr7vp-3000.app.github.dev/email/enviar"; 
 
@@ -119,6 +122,9 @@ function App() {
                     <Route path="*" element={<h2>Página não encontrada.</h2>} />
 
                     <Route path='/cadastro' element={<CadastroUsuario />} />
+                    <Route path='/ajuda' element={<AjudaPage />} />
+                    <Route path='/contato' element={<ContatoForm />} /> 
+
                 </Routes>
 
                 {isChatOpen && <ChatbotUI onClose={toggleChat} />}
