@@ -21,9 +21,19 @@ const destaqueStyle = (isMelhor) => ({ padding: '18px',
 
 
 const ResultadoComparacao = ({ dadosEntrada, resultadoPF, resultadoPJ }) => {
-    
-    const rendaPFLiquida = resultadoPF.rendaMensal - resultadoPF.imposto; 
-    const rendaPJLiquida = resultadoPJ.rendaMensal - resultadoPJ.imposto;
+    if (!dadosEntrada || !resultadoPF || !resultadoPJ) {
+        return (
+            <div id="resultado-comparacao" style={containerStyle}>
+                <h2 style={tituloStyle}>Resultado da Simulação e Comparação</h2>
+                <p style={{ textAlign: 'center', color: '#ffeb3b' }}>
+                    Aguardando cálculo. Por favor, preencha o formulário e clique em "Calcular".
+                </p>
+            </div>
+        );
+    }
+
+    const rendaPFLiquida = dadosEntrada.rendaMensal - resultadoPF.imposto; 
+    const rendaPJLiquida = dadosEntrada.rendaMensal - resultadoPJ.imposto;
 
     const isPFMelhor = rendaPFLiquida >= rendaPJLiquida;
     
@@ -33,8 +43,9 @@ const ResultadoComparacao = ({ dadosEntrada, resultadoPF, resultadoPJ }) => {
                 Pessoa Física (PF)
             </h4>
             
-            <p><strong>Renda Mensal:</strong> {formatter.format(resultadoPF.rendaMensal)}</p>
-            <p><strong>Custos Mensais:</strong> {formatter.format(resultadoPF.custosMensais)}</p>
+            <p><strong>Renda Mensal:</strong> {formatter.format(dadosEntrada.rendaMensal)}</p>
+            <p><strong>Custos Mensais:</strong> {formatter.format(dadosEntrada.custosMensais)}</p>
+            
             <p><strong>Base de Cálculo (IRPF):</strong> {formatter.format(resultadoPF.basePF)}</p>
             <p><strong>IRPF a Pagar:</strong> <strong style={{ color: '#ffeb3b' }}>{formatter.format(resultadoPF.imposto)}</strong></p>
             
@@ -52,7 +63,7 @@ const ResultadoComparacao = ({ dadosEntrada, resultadoPF, resultadoPJ }) => {
                 Pessoa Jurídica (PJ - Simples Nacional)
             </h4>
             
-            <p><strong>Renda Mensal:</strong> {formatter.format(resultadoPJ.rendaMensal)}</p>
+            <p><strong>Renda Mensal:</strong> {formatter.format(dadosEntrada.rendaMensal)}</p>
             <p><strong>28% da Renda (Pró-Labore):</strong> {formatter.format(resultadoPJ.perce28)}</p>
             <p><strong>Regime:</strong> Simples Nacional (6%)</p>
             <p><strong>Imposto (DAS) a Pagar:</strong> <strong style={{ color: '#ffeb3b' }}>{formatter.format(resultadoPJ.imposto)}</strong></p>

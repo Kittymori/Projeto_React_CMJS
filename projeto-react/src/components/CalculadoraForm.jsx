@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+// Componente de Ajuda
 const ExplicacaoPopup = ({ onClose }) => (
     <div style={{ border: '2px solid #00ccff', padding: '15px', margin: '10px 0', textAlign: 'center', backgroundColor: '#05142eff' }}>
         <button 
@@ -10,44 +11,38 @@ const ExplicacaoPopup = ({ onClose }) => (
             X
         </button>
         <h4>Informações de Ajuda:</h4>
-        <p><strong>1. Renda Mensal:</strong> "É o valor que você espera receber por mês com o seu trabalho. No caso da psicologia, pode ser o total recebido das consultas, atendimentos ou serviços prestados, antes de descontar as despesas."</p>
-        <p><strong>2. Custos Mensais:</strong> "São os gastos mensais necessários para o seu trabalho acontecer, como aluguel da sala, internet, energia, telefone, material de escritório, entre outros. Essas despesas podem ser usadas para reduzir a base de cálculo do imposto (no caso da pessoa física)."</p>
+        <p><strong>1. Renda Mensal:</strong> "É o valor total de recursos financeiros que uma pessoa ou família recebe regularmente dentro de um mês, englobando salários, aposentadorias, pensões, aluguéis, rendimentos de investimentos, benefícios sociais e qualquer outra fonte de entrada recorrente; ela representa a soma disponível para custear despesas fixas e variáveis, planejar consumo, poupança ou investimentos, sendo um indicador fundamental da capacidade econômica e do padrão de vida, além de servir como base para cálculos de crédito, impostos e políticas sociais."</p>
+        <p><strong>2. Custos Mensais:</strong> "São o conjunto de todas as despesas que uma pessoa ou família precisa arcar dentro de um mês, incluindo gastos fixos como aluguel, financiamento, contas de água, luz, internet e seguros, além de variáveis como alimentação, transporte, lazer, saúde e imprevistos; representam a soma dos compromissos financeiros necessários para manter o padrão de vida e garantir o funcionamento da rotina, sendo fundamentais para o planejamento orçamentário, controle de dívidas e definição da capacidade de poupança ou investimento."</p>
     </div>
 );
 
 const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
-    // Estado para controlar a exibição do popup de explicação
+    
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const enviarEmailCheck = watch('enviarEmail', false); 
     const [mensagemSucesso, setMensagemSucesso] = useState(null);
     const [mostrarMensagemNAF, setMostrarMensagemNAF] = useState(false);
     const [mensagemNAF, setMensagemNAF] = useState('');
 
-    const onSubmit = async (dados) => {
-    try {
-        // Envia os dados para o backend NestJS
-        const response = await fetch("http://localhost:3000/email/enviar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            email: dados.emailUsuario,
-            resultado: `Renda: R$${dados.rendaMensal}, Custos: R$${dados.custosMensais}`
-        }),
-        });
-
-        if (response.ok) {
-        setMensagemSucesso("E-mail enviado com sucesso!");
-        } else {
-        setMensagemSucesso("Erro ao enviar e-mail.");
+    const onSubmit = (dados) => {
+        
+        const rendaValida = dados.rendaMensal || 0;
+        const custosValidos = dados.custosMensais || 0;
+        const dadosParaBackend = {
+            tipoCalculo: dados.profissao === 'psicologo' ? 'PF' : 'PJ',
+            renda: Number(rendaValida), 
+            custos: Number(custosValidos),
+            emailUsuario: dados.emailUsuario,
+            enviarEmail: dados.enviarEmail
+        };
+        
+        // Envia os dados de entrada para handleCalculo no App.jsx
+        if (onDataSubmit) {
+            onDataSubmit(dadosParaBackend); 
+            setMensagemSucesso("✅ Dados enviados para cálculo e comparação.");
+            setTimeout(() => setMensagemSucesso(null), 5000);
         }
-    } catch (error) {
-        console.error(error);
-        setMensagemSucesso("Erro de conexão com o servidor.");
-    }
-
-    reset();
-    setTimeout(() => setMensagemSucesso(null), 5000);
     };
 
     const togglePopup = () => {
@@ -59,19 +54,20 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
             <h2>Informações para Comparação</h2>
 
             {mensagemSucesso && (
-                <div>{mensagemSucesso}</div>
+                <div style={{ color: mensagemSucesso.includes('sucesso') ? 'lightgreen' : 'red', fontWeight: 'bold' }}>{mensagemSucesso}</div>
             )}
-
+            
+            {/* Seção de Ajuda */}
             <div style={{ margin: '10px 0' }}>
                 <button type="button" className="btn-ajuda" onClick={togglePopup}>
                     {isPopupOpen ? 'Esconder Ajuda' : 'Mostrar Informações de Ajuda'}
                 </button>
             </div>
-
             {isPopupOpen && (
                 <ExplicacaoPopup onClose={togglePopup} /> 
             )}
             
+            {/* Input Renda Mensal */}
             <div>
                 <label htmlFor="renda">Renda Mensal (até R$ 15.000): </label>
                 <input
@@ -84,11 +80,11 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                         max: { value: 15000, message: "A renda não pode exceder R$ 15.000." },
                         valueAsNumber: true,
                     })}
-                    
                 />
-                {errors.rendaMensal && <p>{errors.rendaMensal.message}</p>}
+                {errors.rendaMensal && <p style={{color: 'red'}}>{errors.rendaMensal.message}</p>}
             </div>
 
+            {/* Input Custos Mensais */}
             <div>
                 <label htmlFor="custos">Total de Custos Mensais: </label>
                 <input
@@ -100,11 +96,11 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                         min: { value: 0, message: "Os custos não podem ser negativos." },
                         valueAsNumber: true,
                     })}
-                    
                 />
-                {errors.custosMensais && <p>{errors.custosMensais.message}</p>}
+                {errors.custosMensais && <p style={{color: 'red'}}>{errors.custosMensais.message}</p>}
             </div>
 
+            {/* Select Profissão */}
             <div>
                 <label htmlFor="profissao">Profissão:</label>
                 <select 
@@ -117,6 +113,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                 </select>
             </div>
 
+            {/* Checkbox Enviar Email */}
             <div className="checkbox-group">
                 <input
                     id="enviarEmailCheck"
@@ -126,6 +123,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                 <label htmlFor="enviarEmailCheck">Deseja enviar os cálculos via e-mail?</label>
             </div>
 
+            {/* Input E-mail, condicional */}
             {enviarEmailCheck && (
                 <div>
                     <label htmlFor="emailUsuario">Seu E-mail:</label>
@@ -141,16 +139,18 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                             }
                         })}
                     />
-                    {errors.emailUsuario && <p>{errors.emailUsuario.message}</p>}
+                    {errors.emailUsuario && <p style={{color: 'red'}}>{errors.emailUsuario.message}</p>}
                 </div>
             )}
 
             <button type="submit" className="btn-submit">Calcular Tributação e Enviar</button>
 
+            {/* Mensagem para o NAF*/}
             <div>
                 {!mostrarMensagemNAF ? (
                     <p className="btn-ajuda"
                     onClick={() => setMostrarMensagemNAF(true)} 
+                    style={{ cursor: 'pointer', marginTop: '20px' }}
                     >
                     Enviar mensagem para o NAF (Núcleo de Apoio Contábil e Fiscal)
                     </p>
@@ -195,8 +195,8 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
                     </button>
                     </div>
                 )}
-                </div>
-     
+            </div>
+            
         </form>
     );
 };
