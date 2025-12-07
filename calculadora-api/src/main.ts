@@ -4,20 +4,15 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  //CONFIGURAÇÃO CORS GLOBAL
   app.enableCors({
-    // Permite requisições de QUALQUER origem
-    origin: "*",
-    
-    // Permite TODOS os métodos HTTP (GET, POST, etc.)
-    methods: "*",
-    
-    // Permite TODOS os cabeçalhos (Headers)
-    allowedHeaders: "*",
+    origin: [
+          'https://improved-waffle-pjgv7xrv6rgxhr7vp-5173.app.github.dev',
+          'http://localhost:5173'
+      ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
   });
-  // ----------------------------------------------------
-
-  await app.listen(3000);
-  console.log(`A aplicação está rodando em: ${await app.getUrl()}`);
+  
+  await app.listen(3000); 
 }
 bootstrap();
