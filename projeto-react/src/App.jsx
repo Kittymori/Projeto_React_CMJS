@@ -11,10 +11,29 @@ import './App.css';
 import './index.css';
 import CadastroUsuario from "./components/cadastro/CadastroUsuario.jsx";
 import AjudaPage from './components/AjudaPage/AjudaPage.jsx';
-import ContatoForm from './components/ContatoForm/ContatoForm.jsx'; // Assumindo que você o salvou em './pages/ContatoPage.jsx'
+import ContatoForm from './components/ContatoForm/ContatoForm.jsx'; 
 
-const API_CALCULO_ENDPOINT = "https://improved-waffle-pjgv7xrv6rgxhr7vp-3000.app.github.dev/calculo/simular"; 
-const API_EMAIL_ENDPOINT = "https://improved-waffle-pjgv7xrv6rgxhr7vp-3000.app.github.dev/email/enviar"; 
+const getBackendBaseUrl = () => {
+    if (typeof window === 'undefined' || !window.location.href) {
+        return 'http://localhost:3000';
+    }
+
+    const currentUrl = window.location.href;
+    const codespacePattern = /-\d+\.app\.github\.dev/;
+    const hostMatch = currentUrl.match(/https:\/\/[^\/]+/);
+    const currentHost = hostMatch ? hostMatch[0] : '';
+    
+    if (codespacePattern.test(currentHost)) {
+        const updatedHost = currentHost.replace(/-\d+\.app\.github\.dev/, '-3000.app.github.dev');
+        return updatedHost;
+    }
+    
+    return 'http://localhost:3000';
+};
+
+const API_BASE_URL = getBackendBaseUrl();
+const API_CALCULO_ENDPOINT = `${API_BASE_URL}/calculo/simular`; 
+const API_EMAIL_ENDPOINT = `${API_BASE_URL}/email/enviar`; 
 
 
 function App() {
@@ -26,6 +45,7 @@ function App() {
     
     
     const handleCalculo = async (dadosParaBackend) => {
+        console.log("Chamando API de Cálculo em:", API_CALCULO_ENDPOINT);
 
         try {
             // 1. CHAMADA AO BACKEND (CÁLCULO)
@@ -36,13 +56,13 @@ function App() {
             });
             
             // 2. ATUALIZAÇÃO DOS ESTADOS COM OS DADOS RETORNADOS DO BACKEND
-            const { dadosEntrada, resultadoPF, resultadoPJ } = response.data.dados; 
+            const { dados: { dadosEntrada, resultadoPF, resultadoPJ } } = response.data; 
 
             setDadosFormulario(dadosEntrada);
             setResultadoPF(resultadoPF);
             setResultadoPJ(resultadoPJ);
             
-            console.log("Sucesso na Validação e Cálculo do Backend.");
+            console.log("Sucesso na Validação e Cálculo do Backend. Resultados prontos para exibição.");
             
             // 3. ROLAR PARA O RESULTADO
             setTimeout(() => {
@@ -70,15 +90,28 @@ function App() {
             }
 
         } catch (error) {
-            console.error("Erro ao processar a requisição:", error);
+            console.error("❌ Erro ao processar a requisição:", error);
             
             let errorMessage = "Erro ao calcular. Verifique se o backend está ativo.";
 
-            // Trata erro de e-mail especificamente
             if (error.config && error.config.url === API_EMAIL_ENDPOINT) {
                 errorMessage = "Cálculo efetuado, mas houve uma falha ao enviar o e-mail. Verifique o console para detalhes.";
                 console.error("Falha no envio do e-mail:", error.response?.data || error.message);
             } else {
+                // Limpa os estados em caso de erro no cálculo para forçar o re-cálculo
+                setDadosFormulario(null);
+                setResultadoPF(null);
+                setResultadoPJ(null);
+
+                // Trata erros de rede/CORS
+                if (error.code === 'ERR_NETWORK') {
+                    errorMessage = `Falha de rede (CORS/Bloqueio). O Back-end está ativo em ${API_BASE_URL}?`;
+                } else if (error.response?.status === 404) {
+                    errorMessage = `Erro 404: Rota não encontrada no Back-end. URL: ${API_CALCULO_ENDPOINT}`;
+                } else if (error.response?.data?.message) {
+                    errorMessage = `Erro do servidor: ${error.response.data.message}`;
+                }
+
                 console.error("Falha no cálculo:", error.response?.data || error.message);
             }
 

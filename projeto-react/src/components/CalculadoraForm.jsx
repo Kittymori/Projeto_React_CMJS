@@ -3,15 +3,16 @@ import { useForm } from 'react-hook-form';
 
 const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
     
+    //Hook Form
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const enviarEmailCheck = watch('enviarEmail', false); 
     const [mensagemSucesso, setMensagemSucesso] = useState(null);
 
+    // LÓGICA DE SUBMISSÃO
     const onSubmit = (dados) => {
-        // Lógica de Submissão
         const rendaValida = dados.rendaMensal || 0;
         const custosValidos = dados.custosMensais || 0;
-        const dadosParaBackend = {
+        const dadosParaProp = {
             tipoCalculo: dados.profissao === 'psicologo' ? 'PF' : 'PJ',
             renda: Number(rendaValida), 
             custos: Number(custosValidos),
@@ -20,7 +21,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
         };
         
         if (onDataSubmit) {
-            onDataSubmit(dadosParaBackend); 
+            onDataSubmit(dadosParaProp); // ⬅️ Comunicação para o componente pai (App.jsx)
             setMensagemSucesso("✅ Dados enviados para cálculo e comparação.");
             setTimeout(() => setMensagemSucesso(null), 5000);
         }
