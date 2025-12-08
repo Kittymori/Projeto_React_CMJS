@@ -1,203 +1,202 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const ExplicacaoPopup = ({ onClose }) => (
-    <div style={{ border: '2px solid #00ccff', padding: '15px', margin: '10px 0', textAlign: 'center', backgroundColor: '#05142eff' }}>
-        <button 
-            onClick={onClose}
-            style={{ float: 'right', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
-        >
-            X
-        </button>
-        <h4>Informações de Ajuda:</h4>
-        <p><strong>1. Renda Mensal:</strong> "É o valor que você espera receber por mês com o seu trabalho. No caso da psicologia, pode ser o total recebido das consultas, atendimentos ou serviços prestados, antes de descontar as despesas."</p>
-        <p><strong>2. Custos Mensais:</strong> "São os gastos mensais necessários para o seu trabalho acontecer, como aluguel da sala, internet, energia, telefone, material de escritório, entre outros. Essas despesas podem ser usadas para reduzir a base de cálculo do imposto (no caso da pessoa física)."</p>
-    </div>
-);
-
 const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
-    // Estado para controlar a exibição do popup de explicação
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
+    
+    //Hook Form
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const enviarEmailCheck = watch('enviarEmail', false); 
     const [mensagemSucesso, setMensagemSucesso] = useState(null);
-    const [mostrarMensagemNAF, setMostrarMensagemNAF] = useState(false);
-    const [mensagemNAF, setMensagemNAF] = useState('');
 
-    const onSubmit = async (dados) => {
-    try {
-        // Envia os dados para o backend NestJS
-        const response = await fetch("http://localhost:3000/email/enviar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            email: dados.emailUsuario,
-            resultado: `Renda: R$${dados.rendaMensal}, Custos: R$${dados.custosMensais}`
-        }),
-        });
-
-        if (response.ok) {
-        setMensagemSucesso("E-mail enviado com sucesso!");
-        } else {
-        setMensagemSucesso("Erro ao enviar e-mail.");
+    // LÓGICA DE SUBMISSÃO
+    const onSubmit = (dados) => {
+        const rendaValida = dados.rendaMensal || 0;
+        const custosValidos = dados.custosMensais || 0;
+        const dadosParaProp = {
+            tipoCalculo: dados.profissao === 'psicologo' ? 'PF' : 'PJ',
+            renda: Number(rendaValida), 
+            custos: Number(custosValidos),
+            emailUsuario: dados.emailUsuario,
+            enviarEmail: dados.enviarEmail
+        };
+        
+        if (onDataSubmit) {
+            onDataSubmit(dadosParaProp); // ⬅️ Comunicação para o componente pai (App.jsx)
+            setMensagemSucesso("✅ Dados enviados para cálculo e comparação.");
+            setTimeout(() => setMensagemSucesso(null), 5000);
         }
-    } catch (error) {
-        console.error(error);
-        setMensagemSucesso("Erro de conexão com o servidor.");
-    }
-
-    reset();
-    setTimeout(() => setMensagemSucesso(null), 5000);
+    };
+    
+    const formWrapperStyle = {
+        maxWidth: '600px', 
+        margin: '10px auto 80px auto', 
+        padding: '30px',
+        borderRadius: '12px',
+        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)',
+        color: '#05142e', 
     };
 
-    const togglePopup = () => {
-        setIsPopupOpen(prev => !prev);
+    const titleStyle = {
+        color: '#764ba2', 
+        marginBottom: '20px',
+        textAlign: 'center',
+    };
+
+    const formGroupStyle = {
+        marginBottom: '20px',
+    };
+
+    const labelStyle = {
+        display: 'block',
+        marginBottom: '8px',
+        fontWeight: '600',
+        color: '#333',
+    };
+
+    const inputStyle = (isError) => ({
+        width: '100%',
+        padding: '12px',
+        border: isError ? '1px solid #E53E3E' : '1px solid #CBD5E0',
+        borderRadius: '6px',
+        fontSize: '1em',
+        boxSizing: 'border-box',
+        backgroundColor: '#F7FAFC',
+        color: '#05142e',
+    });
+
+    const errorMessageStyle = {
+        color: '#E53E3E', 
+        marginTop: '5px',
+        fontSize: '0.85em',
+    };
+
+    const checkboxGroupStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '20px',
+    };
+
+    const checkboxLabelStyle = {
+        fontSize: '0.9em', 
+        marginBottom: '0', 
+        color: '#05142e',
+    };
+
+    const primaryButtonStyle = {
+        width: '100%',
+        padding: '15px',
+        border: 'none',
+        borderRadius: '8px',
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: '1.1em',
+        cursor: 'pointer',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+        transition: 'opacity 0.3s',
+    };
+
+    const successMessageStyle = {
+        padding: '10px',
+        backgroundColor: '#D6FFD6',
+        color: '#006400',
+        borderRadius: '6px',
+        marginBottom: '15px',
+        textAlign: 'center',
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="calculadora-form">
-            <h2>Informações para Comparação</h2>
+        <div style={formWrapperStyle}>
+            <form onSubmit={handleSubmit(onSubmit)} className="calculadora-form">
+                <h2 style={titleStyle}>Informações para Comparação</h2>
 
-            {mensagemSucesso && (
-                <div>{mensagemSucesso}</div>
-            )}
-
-            <div style={{ margin: '10px 0' }}>
-                <button type="button" className="btn-ajuda" onClick={togglePopup}>
-                    {isPopupOpen ? 'Esconder Ajuda' : 'Mostrar Informações de Ajuda'}
-                </button>
-            </div>
-
-            {isPopupOpen && (
-                <ExplicacaoPopup onClose={togglePopup} /> 
-            )}
-            
-            <div>
-                <label htmlFor="renda">Renda Mensal (até R$ 15.000): </label>
-                <input
-                    id="renda"
-                    type="number"
-                    className="input-field" 
-                    {...register("rendaMensal", { 
-                        required: "A Renda Mensal é obrigatória.",
-                        min: { value: 1, message: "A renda deve ser maior que zero." },
-                        max: { value: 15000, message: "A renda não pode exceder R$ 15.000." },
-                        valueAsNumber: true,
-                    })}
-                    
-                />
-                {errors.rendaMensal && <p>{errors.rendaMensal.message}</p>}
-            </div>
-
-            <div>
-                <label htmlFor="custos">Total de Custos Mensais: </label>
-                <input
-                    id="custos"
-                    type="number"
-                    className="input-field" 
-                    {...register("custosMensais", { 
-                        required: "Os Custos Mensais são obrigatórios.",
-                        min: { value: 0, message: "Os custos não podem ser negativos." },
-                        valueAsNumber: true,
-                    })}
-                    
-                />
-                {errors.custosMensais && <p>{errors.custosMensais.message}</p>}
-            </div>
-
-            <div>
-                <label htmlFor="profissao">Profissão:</label>
-                <select 
-                    id="profissao" 
-                    className="input-field" 
-                    {...register("profissao", { required: true })} 
-                    defaultValue="psicologo"
-                >
-                    <option value="psicologo">Psicólogo(a)</option>
-                </select>
-            </div>
-
-            <div className="checkbox-group">
-                <input
-                    id="enviarEmailCheck"
-                    type="checkbox"
-                    {...register("enviarEmail")}
-                />
-                <label htmlFor="enviarEmailCheck">Deseja enviar os cálculos via e-mail?</label>
-            </div>
-
-            {enviarEmailCheck && (
-                <div>
-                    <label htmlFor="emailUsuario">Seu E-mail:</label>
+                {mensagemSucesso && (
+                    <div style={successMessageStyle}>{mensagemSucesso}</div>
+                )}
+                
+                {/* Input Renda Mensal */}
+                <div style={formGroupStyle}>
+                    <label htmlFor="renda" style={labelStyle}>Renda Mensal (até R$ 15.000): </label>
                     <input
-                        id="emailUsuario"
-                        type="email"
-                        className="input-field" 
-                        {...register("emailUsuario", {
-                            required: "O campo de e-mail é obrigatório para o envio.",
-                            pattern: {
-                                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                                message: "E-mail inválido."
-                            }
+                        id="renda"
+                        type="number"
+                        style={inputStyle(errors.rendaMensal)}
+                        {...register("rendaMensal", { 
+                            required: "A Renda Mensal é obrigatória.",
+                            min: { value: 1, message: "A renda deve ser maior que zero." },
+                            max: { value: 15000, message: "A renda não pode exceder R$ 15.000." },
+                            valueAsNumber: true,
                         })}
+                        placeholder="R$ 0,00"
                     />
-                    {errors.emailUsuario && <p>{errors.emailUsuario.message}</p>}
+                    {errors.rendaMensal && <span style={errorMessageStyle}>{errors.rendaMensal.message}</span>}
                 </div>
-            )}
 
-            <button type="submit" className="btn-submit">Calcular Tributação e Enviar</button>
-
-            <div>
-                {!mostrarMensagemNAF ? (
-                    <p className="btn-ajuda"
-                    onClick={() => setMostrarMensagemNAF(true)} 
-                    >
-                    Enviar mensagem para o NAF (Núcleo de Apoio Contábil e Fiscal)
-                    </p>
-                ) : (
-                    <div style={{
-                    border: '2px solid #00ccff',
-                    backgroundColor: '#05142e',
-                    padding: '15px',
-                    marginTop: '15px',
-                    borderRadius: '8px',
-                    color: '#ffffff'
-                    }}>
-                    <textarea
-                        value={mensagemNAF}
-                        onChange={(e) => setMensagemNAF(e.target.value)}
-                        placeholder="Digite sua mensagem..."
-                        rows={4}
-                        style={{
-                        width: '100%',
-                        padding: '10px',
-                        borderRadius: '5px',
-                        border: '1px solid #00ccff',
-                        backgroundColor: '#0a1a3a',
-                        color: '#fff',
-                        marginBottom: '10px',
-                        resize: 'none',
-                        fontFamily: 'Montserrat, sans-serif'
-                        }}
+                {/* Input Custos Mensais */}
+                <div style={formGroupStyle}>
+                    <label htmlFor="custos" style={labelStyle}>Total de Custos Mensais: </label>
+                    <input
+                        id="custos"
+                        type="number"
+                        style={inputStyle(errors.custosMensais)}
+                        {...register("custosMensais", { 
+                            required: "Os Custos Mensais são obrigatórios.",
+                            min: { value: 0, message: "Os custos não podem ser negativos." },
+                            valueAsNumber: true,
+                        })}
+                        placeholder="R$ 0,00"
                     />
+                    {errors.custosMensais && <span style={errorMessageStyle}>{errors.custosMensais.message}</span>}
+                </div>
 
-                    <button 
-                        type="button" 
-                        className="btn-email-naf"
-                        disabled={!mensagemNAF.trim()}
-                        onClick={() => {
-                        alert(`Simulação de envio de e-mail para o NAF:\n\n${mensagemNAF}`);
-                        setMensagemNAF('');
-                        setMostrarMensagemNAF(false);
-                        }}
+                {/* Select Profissão */}
+                <div style={formGroupStyle}>
+                    <label htmlFor="profissao" style={labelStyle}>Profissão:</label>
+                    <select 
+                        id="profissao" 
+                        style={inputStyle(false)}
+                        {...register("profissao", { required: true })} 
+                        defaultValue="psicologo"
                     >
-                        Enviar E-mail para o NAF
-                    </button>
+                        <option value="psicologo">Psicólogo(a)</option>
+                    </select>
+                </div>
+
+                {/* Checkbox Enviar Email */}
+                <div style={checkboxGroupStyle}>
+                    <input
+                        id="enviarEmailCheck"
+                        type="checkbox"
+                        style={{ marginRight: '10px' }}
+                        {...register("enviarEmail")}
+                    />
+                    <label htmlFor="enviarEmailCheck" style={checkboxLabelStyle}>Deseja enviar os cálculos via e-mail?</label>
+                </div>
+
+                {/* Input E-mail, condicional */}
+                {enviarEmailCheck && (
+                    <div style={formGroupStyle}>
+                        <label htmlFor="emailUsuario" style={labelStyle}>Seu E-mail:</label>
+                        <input
+                            id="emailUsuario"
+                            type="email"
+                            style={inputStyle(errors.emailUsuario)}
+                            {...register("emailUsuario", {
+                                required: "O campo de e-mail é obrigatório para o envio.",
+                                pattern: {
+                                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                                    message: "E-mail inválido."
+                                }
+                            })}
+                            placeholder="seuemail@exemplo.com"
+                        />
+                        {errors.emailUsuario && <span style={errorMessageStyle}>{errors.emailUsuario.message}</span>}
                     </div>
                 )}
-                </div>
-     
-        </form>
+
+                <button type="submit" style={primaryButtonStyle}>Calcular e Enviar</button>
+                
+            </form>
+        </div>
     );
 };
 

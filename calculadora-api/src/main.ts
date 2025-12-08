@@ -18,7 +18,6 @@ async function bootstrap() {
   });
   setupSwagger(app);
   await app.listen(process.env.PORT ?? 3000);
-  console.log(`A aplicação está rodando em: ${await app.getUrl()}`);
 }
 
 bootstrap();
