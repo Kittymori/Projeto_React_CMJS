@@ -1,5 +1,3 @@
-// src/email/email.service.ts
-
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { CalculoService } from '../calculo/calculo.service';

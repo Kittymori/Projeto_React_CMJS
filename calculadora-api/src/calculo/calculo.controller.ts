@@ -13,7 +13,7 @@ export class CalculoController {
   constructor(private readonly calculoService: CalculoService) {}
 
   @Post('simular')
-  async simularCalculo(@Body() dados: CalculoDto) {
+  simularCalculo(@Body() dados: CalculoDto) {
     const { renda, custos } = dados;
 
     // A validação por DTO
@@ -45,7 +45,7 @@ export class CalculoController {
         },
       };
     } catch (error) {
-      console.error('Erro durante o cálculo no serviço:', error.message);
+      console.error('Erro durante o cálculo no serviço:', error);
       throw new HttpException(
         'Falha interna ao calcular tributação. Verifique o console do servidor.',
         HttpStatus.INTERNAL_SERVER_ERROR,

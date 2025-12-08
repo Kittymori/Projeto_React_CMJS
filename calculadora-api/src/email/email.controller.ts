@@ -31,7 +31,7 @@ export class EmailController {
     } catch (error) {
       console.error('Erro no EmailController:', error);
       throw new HttpException(
-        'Falha no envio do e-mail: ' + (error.message || 'Erro desconhecido'),
+        'Falha no envio do e-mail: ' + (error || 'Erro desconhecido'),
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
