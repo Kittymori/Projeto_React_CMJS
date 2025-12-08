@@ -3,7 +3,7 @@ import { CalculoService } from './calculo.service';
 import { CalculoController } from './calculo.controller';
 
 @Module({
-  controllers: [CalculoController], 
+  controllers: [CalculoController],
   providers: [CalculoService],
   exports: [CalculoService],
 })

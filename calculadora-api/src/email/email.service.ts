@@ -18,7 +18,7 @@ export class EmailService {
     tipoCalculo: 'PF' | 'PJ',
   ) {
     try {
-      const resultados = this.calculoService.simularCalculos(renda, custos); 
+      const resultados = this.calculoService.simularCalculos(renda, custos);
       const impostoPF = resultados.resultadoPF.imposto.toFixed(2);
       const liquidaPF = resultados.resultadoPF.rendaLiquida.toFixed(2);
       const impostoPJ = resultados.resultadoPJ.imposto.toFixed(2);
@@ -44,18 +44,19 @@ export class EmailService {
           <li>**Renda Líquida**: R$ ${liquidaPJ}</li>
         </ul>
         
-        <p>Obrigado por usar nossa calculadora! Qualquer dúvida, entre em contato com o NAF.</p>
+        <p>Obrigado por usar nossa calculadora! Qualquer dúvida, entre em contato.</p>
       `;
 
       await this.mailerService.sendMail({
         to: destinatario,
-        subject: 'Resultado da sua Comparação Tributária',
+        subject: 'Resultado da Sua Comparação Tributária',
         html: htmlContent,
       });
-      
     } catch (error) {
       console.error('Erro ao enviar e-mail:', error);
-      throw new InternalServerErrorException('Não foi possível enviar o e-mail devido a uma falha interna.');
+      throw new InternalServerErrorException(
+        'Não foi possível enviar o e-mail devido a uma falha interna.',
+      );
     }
   }
 }
