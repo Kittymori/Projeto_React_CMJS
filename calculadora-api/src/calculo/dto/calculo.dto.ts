@@ -1,22 +1,21 @@
-import { IsNumber, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CalculoDto {
-  
   // 1. Dados de Entrada
-  @IsNotEmpty() 
-  @IsNumber() 
-  @Type(() => Number) 
+  @IsNotEmpty()
+  @IsNumber()
+  @Type(() => Number)
   renda: number;
 
   @IsNotEmpty()
   @IsNumber()
-  @Type(() => Number) 
+  @Type(() => Number)
   custos: number;
 
   // 2. Outras Propriedades
-  
+
   @IsNotEmpty()
-  @IsString() 
-  tipoCalculo: string; 
+  @IsString()
+  tipoCalculo: string;
 }
