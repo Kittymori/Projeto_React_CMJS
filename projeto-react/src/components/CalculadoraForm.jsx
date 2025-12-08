@@ -107,7 +107,7 @@ const CalculadoraForm = ({ onDataSubmit, onOpenChat }) => {
     return (
         <div style={formWrapperStyle}>
             <form onSubmit={handleSubmit(onSubmit)} className="calculadora-form">
-                <h2 style={titleStyle}>Informações para Comparação</h2>
+                <h2 style={titleStyle}>Informe os Dados</h2>
 
                 {mensagemSucesso && (
                     <div style={successMessageStyle}>{mensagemSucesso}</div>

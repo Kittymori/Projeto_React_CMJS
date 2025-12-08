@@ -74,21 +74,12 @@ const Header = () => {
             </Link>
 
             <Link
-                to="/cadastro"
-                style={linkStyle}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-            >
-                Cadastrar
-            </Link>
-
-            <Link
                 to="/ajuda"
                 style={linkStyle}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                Ajuda
+                Informações
             </Link>
             
             <Link
@@ -98,6 +89,14 @@ const Header = () => {
                 onMouseLeave={handleMouseLeave}
             >
                 Contato
+            </Link>
+            <Link
+                to="/cadastro"
+                style={linkStyle}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
+                Cadastrar
             </Link>
 
         </nav>

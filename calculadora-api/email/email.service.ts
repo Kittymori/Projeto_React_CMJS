@@ -44,12 +44,12 @@ export class EmailService {
           <li>**Renda Líquida**: R$ ${liquidaPJ}</li>
         </ul>
         
-        <p>Obrigado por usar nossa calculadora! Qualquer dúvida, entre em contato.</p>
+        <p>Obrigado por usar nossa calculadora! Qualquer dúvida, entre em contato com o NAF.</p>
       `;
 
       await this.mailerService.sendMail({
         to: destinatario,
-        subject: 'Resultado da Sua Comparação Tributária',
+        subject: 'Resultado da sua Comparação Tributária',
         html: htmlContent,
       });
       
