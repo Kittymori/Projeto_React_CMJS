@@ -1,7 +1,6 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Montserrat', sans-serif;
 }
 
 .container-principal {
@@ -46,6 +45,7 @@ body {
     font-weight: 500;
     font-size: 14px;
 }
+
 .form-input {
     width: 100%;
     padding: 12px;
@@ -115,6 +115,30 @@ body {
 .btn-secondary:hover {
     background-color: #f7f9ff;
 }
+.naf-textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #667eea;
+    background-color: #ffffff;
+    color: #05142e;
+    margin-bottom: 10px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+
+.btn-email-naf {
+    background: #4C51BF;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
 
 .checkbox-group {
     margin-bottom: 20px;
@@ -160,31 +184,6 @@ body {
     margin-top: 15px;
     border-radius: 8px;
     color: #05142e;
-}
-
-.naf-textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #667eea;
-    background-color: #ffffff;
-    color: #05142e;
-    margin-bottom: 10px;
-    resize: vertical;
-    font-family: inherit;
-    box-sizing: border-box;
-}
-
-.btn-email-naf {
-    background: #4C51BF;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
 }
 
 .container-ajuda {

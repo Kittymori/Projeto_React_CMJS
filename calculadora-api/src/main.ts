@@ -8,7 +8,7 @@ async function bootstrap() {
     // 1. CONFIGURAÇÃO CORS OTIMIZADA
     app.enableCors({
         origin: [
-            /https:\/\/.*-5173\.app\.github\.dev/, // Aceita qualquer Codespace na porta 5173
+            /https:\/\/.*-5173\.app\.github\.dev/,
             'http://localhost:5173'
         ],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',

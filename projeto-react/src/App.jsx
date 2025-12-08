@@ -1,3 +1,5 @@
+// src/App.jsx
+
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
@@ -34,6 +36,7 @@ const getBackendBaseUrl = () => {
 const API_BASE_URL = getBackendBaseUrl();
 const API_CALCULO_ENDPOINT = `${API_BASE_URL}/calculo/simular`; 
 const API_EMAIL_ENDPOINT = `${API_BASE_URL}/email/enviar`; 
+const API_CONTATO_ENDPOINT = `${API_BASE_URL}/contato/enviar`; 
 
 
 function App() {
@@ -118,6 +121,39 @@ function App() {
             alert(errorMessage);
         }
     };
+    
+    // =========================================================================
+    // FUNÇÃO DE ENVIO DE CONTATO CENTRALIZADA
+    // =========================================================================
+    const handleSendContato = async (formData) => {
+        console.log("Chamando API de Contato em:", API_CONTATO_ENDPOINT);
+        
+        try {
+            const response = await axios.post(
+                API_CONTATO_ENDPOINT, 
+                formData
+            );
+            console.log("Contato enviado com sucesso:", response.data);
+            return { success: true }; // ⬅️ Retorna sucesso para o ContatoForm
+            
+        } catch (error) {
+            console.error('Erro ao enviar contato (via App.jsx):', error);
+            
+            let errorMessage = 'Falha ao conectar-se ao servidor (Network/CORS).';
+            if (error.code === 'ERR_NETWORK') {
+                errorMessage = `Falha de conexão com o Back-end (${API_BASE_URL}).`;
+            } else if (error.response?.status === 404) {
+                errorMessage = `Erro 404: Rota de contato não encontrada (${API_CONTATO_ENDPOINT}).`;
+            } else if (error.response && error.response.data && error.response.data.message) {
+                errorMessage = Array.isArray(error.response.data.message) 
+                    ? error.response.data.message.join(', ')
+                    : error.response.data.message;
+            }
+            return { success: false, error: errorMessage }; // ⬅️ Retorna o erro para o ContatoForm
+        }
+    };
+    // =========================================================================
+
 
     const toggleChat = () => {
         setIsChatOpen(prev => !prev);
@@ -156,7 +192,12 @@ function App() {
 
                     <Route path='/cadastro' element={<CadastroUsuario />} />
                     <Route path='/ajuda' element={<AjudaPage />} />
-                    <Route path='/contato' element={<ContatoForm />} /> 
+                    
+                    {/* Rota do ContatoForm (Passando a função de envio) */}
+                    <Route 
+                        path='/contato' 
+                        element={<ContatoForm onSubmitContato={handleSendContato} />} 
+                    /> 
 
                 </Routes>
 
