@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
 
-export class EnvioEmailDto {
+export class ResultadoCalculoEmailDto {
   @IsNotEmpty({ message: 'O destinatário é obrigatório.' })
   @IsEmail({}, { message: 'O e-mail deve ser válido.' })
   destinatario: string;

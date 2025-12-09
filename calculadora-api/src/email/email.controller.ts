@@ -6,19 +6,24 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { EmailService } from './email.service';
-import { EnvioEmailDto } from './dto/envio-email.dto';
+import { ResultadoCalculoEmailDto } from './dto/resultado-calculo-email.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JWT_AUTH } from '../infra/swagger.config';
+import { ContatoDto } from './dto/contato.dto';
 
+@ApiTags('email')
+@ApiBearerAuth(JWT_AUTH)
 @Controller('email')
 export class EmailController {
   constructor(private readonly emailService: EmailService) {}
 
-  @Post('enviar')
-  async enviarEmail(@Body() dados: EnvioEmailDto) {
+  @Post('resultado')
+  async receberResultadoCalculo(@Body() dados: ResultadoCalculoEmailDto) {
     try {
       const renda = dados.renda || 0;
       const custos = dados.custos || 0;
 
-      await this.emailService.enviar(
+      await this.emailService.receberResultadoCalculo(
         dados.destinatario,
         renda,
         custos,
@@ -35,5 +40,11 @@ export class EmailController {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  @Post('contato')
+  async enviar(@Body() contatoDto: ContatoDto) {
+    await this.emailService.contatoNaf(contatoDto);
+    return { message: 'Mensagem de contato enviada com sucesso!' };
   }
 }
