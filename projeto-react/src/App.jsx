@@ -35,8 +35,8 @@ const getBackendBaseUrl = () => {
 
 const API_BASE_URL = getBackendBaseUrl();
 const API_CALCULO_ENDPOINT = `${API_BASE_URL}/calculo/simular`; 
-const API_EMAIL_ENDPOINT = `${API_BASE_URL}/email/enviar`; 
-const API_CONTATO_ENDPOINT = `${API_BASE_URL}/contato/enviar`; 
+const API_EMAIL_ENDPOINT = `${API_BASE_URL}/email/resultado`;
+const API_CONTATO_ENDPOINT = `${API_BASE_URL}/email/contato`;
 
 
 function App() {
