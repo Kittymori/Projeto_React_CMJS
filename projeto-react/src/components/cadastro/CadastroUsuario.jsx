@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const CadastroUsuario = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         nome: '',
         email: '',
-        idade: ''
+        idade: '',
+        senha: ''
     });
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,6 +54,13 @@ const CadastroUsuario = () => {
             newErrors.idade = 'Idade inválida';
         }
 
+        // Validação da senha
+        if (!formData.senha.trim()) {
+            newErrors.senha = 'Senha é obrigatória';
+        } else if (formData.senha.length < 6) {
+            newErrors.senha = 'A senha deve ter pelo menos 6 caracteres';
+        }
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -66,9 +75,30 @@ const CadastroUsuario = () => {
         setIsSubmitting(true);
 
         try {
-            // Simular uma chamada à API
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            localStorage.setItem('usuario', JSON.stringify(formData));
+            const payload = {
+                name: formData.nome,
+                email: formData.email,
+                password: formData.senha
+            };
+            const response = await fetch("http://localhost:3000/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                setErrors({ submit: errorData.message || "Erro ao realizar cadastro." });
+                return;
+            }
+
+            const result = await response.json();
+
+            // Ex: salvar token, usuário, ou simplesmente redirecionar
+            // localStorage.setItem('token', result.token);
+
             navigate('/');
         } catch (error) {
             console.error('Erro ao cadastrar usuário:', error);
@@ -205,6 +235,54 @@ const CadastroUsuario = () => {
                                 {errors.email}
                             </span>
                         )}
+                    </div>
+
+                    <div style={{ marginBottom: '20px' }}>
+                        <label style={{
+                            display: 'block',
+                            marginBottom: '8px',
+                            color: '#555',
+                            fontWeight: '500',
+                            fontSize: '14px'
+                        }}>
+                            Senha *
+                        </label>
+                        <input
+                            type="password"
+                            name="senha"
+                            value={formData.senha}
+                            onChange={handleChange}
+                            placeholder="Digite sua senha"
+                            style={{
+                                width: '100%',
+                                padding: '12px',
+                                border: errors.senha ? '2px solid #e74c3c' : '2px solid #e0e0e0',
+                                borderRadius: '8px',
+                                fontSize: '16px',
+                                transition: 'border-color 0.3s',
+                                outline: 'none',
+                                boxSizing: 'border-box'
+                            }}
+                            onFocus={(e) => {
+                                if (!errors.senha) {
+                                    e.target.style.borderColor = '#667eea';
+                                }
+                            }}
+                            onBlur={(e) => {
+                                if (!errors.senha) {
+                                    e.target.style.borderColor = '#e0e0e0';
+                                }
+                            }}
+                        />
+                        {errors.senha && (
+                            <span style={{
+                                color: '#e74c3c',
+                                fontSize: '12px',
+                                marginTop: '5px',
+                                display: 'block'
+                            }}>
+                            {errors.senha}
+                        </span>)}
                     </div>
 
                     <div style={{ marginBottom: '30px' }}>
