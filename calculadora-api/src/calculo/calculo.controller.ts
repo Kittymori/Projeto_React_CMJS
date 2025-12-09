@@ -7,11 +7,15 @@ import {
 } from '@nestjs/common';
 import { CalculoService } from './calculo.service';
 import { CalculoDto } from './dto/calculo.dto';
+import { Public } from '../auth/decorators/public.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('calculo')
 @Controller('calculo')
 export class CalculoController {
   constructor(private readonly calculoService: CalculoService) {}
 
+  @Public()
   @Post('simular')
   simularCalculo(@Body() dados: CalculoDto) {
     const { renda, custos } = dados;

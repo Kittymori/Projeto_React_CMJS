@@ -4,7 +4,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 export const JWT_AUTH = 'JWT-auth';
 
 export function setupSwagger(app: INestApplication) {
-
   // Configuração do Swagger
   const config = new DocumentBuilder()
     .setTitle('Calculadora API')
@@ -12,6 +11,8 @@ export function setupSwagger(app: INestApplication) {
     .setVersion('1.0')
     .addTag('auth', 'Endpoints de autenticação')
     .addTag('users', 'Endpoints de usuários')
+    .addTag('calculo', 'Endpoints de cálculo')
+    .addTag('email', 'Envio de e-mail')
     .addBearerAuth(
       {
         type: 'http',
