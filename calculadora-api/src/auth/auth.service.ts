@@ -23,6 +23,7 @@ export class AuthService {
 
     const user = await this.userService.findByEmail(email);
     if (!user) {
+      console.log('Credenciais inválidas');
       throw new UnauthorizedException('Credenciais inválidas');
     }
 
@@ -31,6 +32,7 @@ export class AuthService {
       user.password,
     );
     if (!isPasswordValid) {
+      console.log('Credenciais inválidas');
       throw new UnauthorizedException('Credenciais inválidas');
     }
 

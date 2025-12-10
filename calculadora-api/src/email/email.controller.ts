@@ -10,6 +10,7 @@ import { ResultadoCalculoEmailDto } from './dto/resultado-calculo-email.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JWT_AUTH } from '../infra/swagger.config';
 import { ContatoDto } from './dto/contato.dto';
+import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('email')
 @ApiBearerAuth(JWT_AUTH)
@@ -17,6 +18,7 @@ import { ContatoDto } from './dto/contato.dto';
 export class EmailController {
   constructor(private readonly emailService: EmailService) {}
 
+  @Public()
   @Post('resultado')
   async receberResultadoCalculo(@Body() dados: ResultadoCalculoEmailDto) {
     try {
@@ -42,6 +44,7 @@ export class EmailController {
     }
   }
 
+  @Public()
   @Post('contato')
   async enviar(@Body() contatoDto: ContatoDto) {
     await this.emailService.contatoNaf(contatoDto);

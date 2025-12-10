@@ -99,6 +99,15 @@ const Header = () => {
                 Cadastrar
             </Link>
 
+            <Link
+                to="/login"
+                style={linkStyle}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
+                Login
+            </Link>
+
         </nav>
     </header>
   );

@@ -13,7 +13,8 @@ import './App.css';
 import './index.css';
 import CadastroUsuario from "./components/cadastro/CadastroUsuario.jsx";
 import AjudaPage from './components/AjudaPage/AjudaPage.jsx';
-import ContatoForm from './components/ContatoForm/ContatoForm.jsx'; 
+import ContatoForm from './components/ContatoForm/ContatoForm.jsx';
+import LoginUsuario from "./components/cadastro/LoginUsuario.jsx";
 
 const getBackendBaseUrl = () => {
     if (typeof window === 'undefined' || !window.location.href) {
@@ -29,7 +30,7 @@ const getBackendBaseUrl = () => {
         const updatedHost = currentHost.replace(/-\d+\.app\.github\.dev/, '-3000.app.github.dev');
         return updatedHost;
     }
-    
+
     return 'http://localhost:3000';
 };
 
@@ -191,6 +192,7 @@ function App() {
                     <Route path="*" element={<h2>Página não encontrada.</h2>} />
 
                     <Route path='/cadastro' element={<CadastroUsuario />} />
+                    <Route path='/login' element={<LoginUsuario />} />
                     <Route path='/ajuda' element={<AjudaPage />} />
                     
                     {/* Rota do ContatoForm (Passando a função de envio) */}
